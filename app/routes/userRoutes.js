@@ -16,9 +16,11 @@ module.exports = function(app, passport){
 		json = '{"user": {'+ 
 			'"u_id": "'+user.twitter.id+'",'+ 
 			'"token": "'+user.twitter.token+'",'+ 
-			'"username": "'+user.twitter.username+'"'+'}}'; 
+			'"username": "'+user.twitter.username+'",'+
+			'"profile_image_url": "'+user.twitter.profile_image_url+'"}}'; 
 		//res.json(JSON.parse( json )); 
-		res.render('profile.pug', { json: JSON.parse(json), user: req.user });
+		console.log(user.twitter);
+		res.render('profile.pug', { user: user.twitter });
 	});
 
 	app.post('/profile', function(req, res){
@@ -53,7 +55,6 @@ module.exports = function(app, passport){
 		passport.authenticate('twitter', { failureRedirect: '/' }),
 		function(req, res) {
 			console.log("AUTH CALLBACK");
-			console.log(req.user);
 	    	res.redirect('/profile');
 		});
 

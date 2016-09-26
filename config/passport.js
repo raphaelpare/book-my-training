@@ -25,6 +25,7 @@ module.exports = function(passport) {
         callbackURL: configAuth.twitterAuth.callbackURL
 	  },
         function(token, tokenSecret, profile, done) {
+
             process.nextTick(function() {
                 User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
 
@@ -38,12 +39,18 @@ module.exports = function(passport) {
                         return done(null, user); // user found, return that user
                     } else {
                         // if there is no user, create them
-                        var newUser                 = new User();
+                        var newUser = new User();
+
 
                         // set all of the user data that we need
-                        newUser.twitter.id          = profile.id;
-                        newUser.twitter.token       = token;
-                        newUser.twitter.username    = profile.username;
+                        newUser.twitter.id                  = profile.id;
+                        newUser.twitter.token               = token;
+                        newUser.twitter.username            = profile.username;
+                        newUser.twitter.profile_image_url   = profile._json.profile_image_url;
+
+                        console.log(newUser.twitter.profile_image_url)
+
+                        console.log(newUser);
 
                         // save our user into the database
                         newUser.save(function(err) {
