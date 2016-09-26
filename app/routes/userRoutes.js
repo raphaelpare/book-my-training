@@ -14,15 +14,11 @@ module.exports = function(app, passport){
 	app.get('/profile', routing.isLoggedIn, function(req, res){
 		user = req.user; 
 		json = '{"user": {'+ 
-			'"u_id": "'+user.u_id+'",'+ 
-			'"token": "'+user.token+'",'+ 
-			'"username": "'+user.username+'",'+ 
-			'"profilePictureUrl": "'+user.profilePictureUrl+'",'+ 
-			'"followersCount": '+user.followersCount+','+ 
-			'"followingCount": '+user.followingCount+ 
-		'}}'; 
+			'"u_id": "'+user.twitter.id+'",'+ 
+			'"token": "'+user.twitter.token+'",'+ 
+			'"username": "'+user.twitter.username+'"'+'}}'; 
 		//res.json(JSON.parse( json )); 
-		res.render('profile.ejs', { json: JSON.parse(json), user: req.user });
+		res.render('profile.pug', { json: JSON.parse(json), user: req.user });
 	});
 
 	app.post('/profile', function(req, res){

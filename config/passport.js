@@ -12,7 +12,7 @@ module.exports = function(passport) {
     passport.serializeUser(function(user, done) {
         done(null, user.id);
     });
-    
+
     passport.deserializeUser(function(id, done) {
         User.findById(id, function(err, user) {
             done(err, user);
@@ -25,8 +25,6 @@ module.exports = function(passport) {
         callbackURL: configAuth.twitterAuth.callbackURL
 	  },
         function(token, tokenSecret, profile, done) {
-            console.log(token);
-
             process.nextTick(function() {
                 User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
 
