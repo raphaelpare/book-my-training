@@ -1,13 +1,30 @@
 {
-  "name": "iRibreau",
-  "version": "0.1.5",
+  "name": "tpwebservices",
+  "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexandreChollet/tp_webservice.git"
+  },
+  "author": "tort",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexandreChollet/tp_webservice/issues"
+  },
+  "homepage": "https://github.com/AlexandreChollet/tp_webservice#readme",
+  "dependencies": {
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "jade": "^1.11.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "grunt": "^1.0.1"
+  },
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "latest",
