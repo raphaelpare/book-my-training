@@ -10,11 +10,11 @@ var User         = require(appDir + '/app/models/user');
 module.exports = function(passport) {
 
     passport.serializeUser(function(user, done) {
-        done(null, user.u_id);
+        done(null, user.id);
     });
-
+    
     passport.deserializeUser(function(id, done) {
-        userDao.findById(id, function(err, user) {
+        User.findById(id, function(err, user) {
             done(err, user);
         });
     });
@@ -24,8 +24,8 @@ module.exports = function(passport) {
         consumerSecret: configAuth.twitterAuth.consumerSecret,
         callbackURL: configAuth.twitterAuth.callbackURL
 	  },
-        function(token, tokenSecret, profile, cb) {
-            console.log(profile);
+        function(token, tokenSecret, profile, done) {
+            console.log(token);
 
             process.nextTick(function() {
                 User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
@@ -46,7 +46,6 @@ module.exports = function(passport) {
                         newUser.twitter.id          = profile.id;
                         newUser.twitter.token       = token;
                         newUser.twitter.username    = profile.username;
-                        newUser.twitter.displayName = profile.displayName;
 
                         // save our user into the database
                         newUser.save(function(err) {
