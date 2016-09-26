@@ -17,15 +17,6 @@
   },
   "homepage": "https://github.com/AlexandreChollet/tp_webservice#readme",
   "dependencies": {
-    "ejs": "^2.5.2",
-    "express": "^4.14.0",
-    "jade": "^1.11.0"
-  },
-  "private": true,
-  "devDependencies": {
-    "grunt": "^1.0.1"
-  },
-  "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "latest",
     "connect-flash": "~0.1.1",
@@ -33,9 +24,15 @@
     "ejs": "latest",
     "express": "~4.12.3",
     "express-session": "latest",
+    "method-override": "^2.3.6",
     "morgan": "~1.5.2",
     "passport": "~0.2.1",
     "passport-twitter": "^1.0.0",
-    "pg": "^4.5.5"
+    "pg": "^4.5.5",
+    "pug": "^0.1.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "grunt": "^1.0.1"
   }
 }

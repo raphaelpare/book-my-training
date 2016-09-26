@@ -3,11 +3,9 @@ var path = require('path');
 var appDir = path.dirname(require.main.filename);
 
 //Modules
-var InstagramStrategy = require('passport-twitter').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 var configAuth   = require(appDir + '/config/apiAuthentication');
-var User         = require(appDir + '/app/dal/models/user');
-var UserDao      = require(appDir + '/app/dal/userDao');
-var userDao      = new UserDao();
+var User         = require(appDir + '/app/models/user');
 
 module.exports = function(passport, pg) {
 
@@ -21,7 +19,7 @@ module.exports = function(passport, pg) {
         });
     });
 
-	passport.use(new InstagramStrategy({
+	passport.use(new TwitterStrategy({
         consumerKey: configAuth.twitterAuth.consumerKey,
         consumerSecret: configAuth.twitterAuth.consumerSecret,
         callbackURL: configAuth.twitterAuth.callbackURL

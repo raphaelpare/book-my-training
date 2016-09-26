@@ -1,18 +1,14 @@
 var path = require('path');
 var appDir = path.dirname(require.main.filename);
-var CampaignDao = require(appDir + '/app/dal/campaignDao');
-var campaignDao = new CampaignDao();
-var UserDao = require(appDir + '/app/dal/userDao');
-var userDao = new UserDao();
 
 // Modules
 var routing = require(appDir + '/app/routes/routes');
-var User = require(appDir + '/app/dal/models/user');
+var User = require(appDir + '/app/models/user');
 
 module.exports = function(app, passport){
 
 	app.get('/', function(req, res){
-		res.render('workInProgress.ejs');
+		res.render('index.pug');
 	});
 
 	app.get('/profile', routing.isLoggedIn, function(req, res){

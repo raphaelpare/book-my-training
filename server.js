@@ -8,7 +8,7 @@ var morgan 		 = require('morgan');
 var bodyParser 	 = require('body-parser');
 var passport 	 = require('passport');
 var flash 		 = require('connect-flash');
-var methodOverride = require('method-override')
+var methodOverride = require('method-override');
 var router 		 = express.Router();
 
 require('./config/passport')(passport);
@@ -26,7 +26,7 @@ app.use(passport.session());
 app.use(flash());
 app.use(express.static(__dirname + '/views'));
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 // Routes
 require('./app/routes/userRoutes.js')(app, passport);
