@@ -53,8 +53,8 @@ module.exports = function(app, passport){
 	//app.post('/auth', passport.authenticate('local', { session: false }), serialize, generateToken, respond);
 
 
-	app.get('/auth/instagram/callback',
-		passport.authenticate('instagram', { failureRedirect: '/' }),
+	app.get('/auth/twitter/callback',
+		passport.authenticate('twitter', { failureRedirect: '/' }),
 		function(req, res) {
 			console.log("AUTH CALLBACK");
 			console.log(req.user);
