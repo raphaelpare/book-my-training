@@ -50,7 +50,7 @@ module.exports = function(app, passport){
 		});
 	});
 
-	app.get('/auth/instagram',passport.authenticate('instagram'), function(req, res){
+	app.get('/auth/twitter',passport.authenticate('twitter'), function(req, res){
 		console.log("AUTH");
 	});
 

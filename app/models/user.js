@@ -1,23 +1,17 @@
-module.exports = function User(u_id, token, username, profilePictureUrl, followersCount, followingCount){
+module.exports = function User(u_id, token, username, profilePictureUrl){
 
     // The user's id
     this.user_id = 0;
 
-    // The user's instagram id
+    // The user's twitter id
     this.u_id = u_id;
 
-    // The token returned by the instagram API
+    // The token returned by the twitter API
 	this.token = token
 
-    // The user's instagram username
+    // The user's twitter username
 	this.username = username;
 
-    // The URL for the user's instagram profile picture
+    // The URL for the user's twitter profile picture
     this.profilePictureUrl = profilePictureUrl;
-
-    // The amount of followers for this user
-    this.followersCount = followersCount;
-
-    // The amount of people that this user is following
-    this.followingCount = followingCount;
 }

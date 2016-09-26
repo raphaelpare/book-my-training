@@ -22,46 +22,15 @@ module.exports = function(passport, pg) {
     });
 
 	passport.use(new InstagramStrategy({
-	    clientID: configAuth.instagramAuth.clientID,
-	    clientSecret: configAuth.instagramAuth.clientSecret,
-	    callbackURL: configAuth.instagramAuth.callbackURL
+        consumerKey: configAuth.twitterAuth.consumerKey,
+        consumerSecret: configAuth.twitterAuth.consumerSecret,
+        callbackURL: configAuth.twitterAuth.callbackURL
 	  },
-	  function(accessToken, refreshToken, profile, done) {
-    	process.nextTick(function(){
-
-            profile = JSON.parse(profile._raw).data;
-
-    		userDao.findOne(profile.id, function(err, user){
-    			if(err){
-    				console.log("err");
-    				return done(err);
-    			}
-    			if(user){
-    				console.log("found");
-                    var newUser = new User(profile.id, accessToken, profile.username, profile.profile_picture, profile.counts.followed_by, profile.counts.follows);
-
-                    userDao.updateByUser(newUser, function(errUpdate){
-                        if(errUpdate){
-                            console.log(errUpdate);
-                            return done(err);
-                        }
-                        return done(null, newUser);
-                    });
-    			}
-    			else {
-    				console.log("new");
-                    var newUser = new User(profile.id, accessToken, profile.username, profile.profile_picture, profile.counts.followed_by, profile.counts.follows);
-                    
-                    userDao.save(newUser, function(err, callback){
-    					if(err)
-    						throw err;
-    					return done(null, newUser);
-    				});
-                    
-    			}
-    		});
-    	});
-	  }
+        function(token, tokenSecret, profile, cb) {
+            User.findOrCreate({ twitterId: profile.id }, function (err, user) {
+                return cb(err, user);
+        });
+        }
 	));
 
 

@@ -31,5 +31,5 @@ app.set('view engine', 'ejs');
 // Routes
 require('./app/routes/userRoutes.js')(app, passport);
 
-app.listen(port);
 console.log('Magic happens on port: ' + port);
+app.listen(port);
