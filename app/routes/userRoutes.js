@@ -3,6 +3,16 @@ var appDir = path.dirname(require.main.filename);
 var request = require('request');
 
 
+
+var Twitter = require('twitter');
+
+var client = new Twitter({
+	consumer_key: '4ty6jx5zYcTj9GPmP9cHkvJGy',
+	consumer_secret: 'JlIWy5nHD96jCZD4TTOCSDbQ9Ltxpf7UbrwB5WFcxCYoD6TILe',
+	access_token_key: '1637629183-iP8O5Gr6nTmLKkxwdA8ebPj7ASYOtfemLUEqnti',
+	access_token_secret: '7gvBmwpC0JK3eMw0Lkq0weAejJhbOVBecaGaVcCDalVlY'
+});
+
 // Modules
 var routing = require(appDir + '/app/routes/routes');
 var User = require(appDir + '/app/models/user');
@@ -15,31 +25,7 @@ module.exports = function(app, passport){
 
 	app.get('/profile', routing.isLoggedIn, function(req, res){
 
-		var options = {
-			url: 'https://api.twitter.com/1.1/statuses/home_timeline.json',
-			headers: {
-				'Authorization'	: 'Authorization: OAuth oauth_consumer_key="4ty6jx5zYcTj9GPmP9cHkvJGy", oauth_nonce="26ae56caf27a52a8a9a73eea6f6d8d0b", oauth_signature="7YB5c8u5%2Fk%2FVW3qbtX7Kplreqn4%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="'+req.user.twitter.token+'", oauth_version="1.0"',
-				'X-Target-URI'	: 'https://api.twitter.com',
-				'Host'	: 'api.twitter.com',
-				'Connection'	: 'Keep-Alive'
-			}
-		};
-
- 
-		function callback(error, response, body) {
-		  if (!error) {
-		    var info = JSON.parse(body);
-		    console.log(info);
-		  }
-		  else
-		  	console.log("ERROR")
-		  	console.log(error)
-		}
-		 
-		request(options, callback);
-
-		user = req.user;
-		//res.render('profile.pug', { user: user.twitter });
+		res.render('profile.pug', { user: req.user.twitter });
 	});
 
 	app.post('/profile', function(req, res){
@@ -48,6 +34,21 @@ module.exports = function(app, passport){
 			res.redirect('/profile');
 		});
 	});
+
+	app.get('/feed', function(req, res){
+		var params = {screen_name: 'nodejs'};
+		client.get('statuses/home_timeline', params, function(error, tweets, response) {
+		  if (!error) {
+		    tweets.forEach(function(item, index){
+		    	tweets[index] = tweets[index].id
+		    })
+		    res.redirect('/feed', {tweetsId : tweets});
+		  }
+		});
+
+
+	})
+
 
 	app.get('/profile/edit', function(req, res){
 		campaignDao.getHobbies(function(err, hobbies){
