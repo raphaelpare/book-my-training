@@ -6,6 +6,40 @@ html
     link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
     style.
       body 		{ padding-top:80px; word-wrap:break-word; }
+    script.
+      window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+      t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      t._e = [];
+      t.ready = function(f) {
+      t._e.push(f);
+      };
+      return t;
+      }(document, "script", "twitter-wjs"));
+
+      console.log(window.twttr.widgets);
+
+      twttr.ready(
+        function (twttr) {
+          twttr.events.bind(
+          'loaded',
+          function (event) {
+            twttr.widgets.createTweet(
+            '511181794914627584',
+            document.getElementById('container'),
+            {
+              align: 'left'
+            });
+          }
+        );
+        }
+      );  
+      
   body
     .container
       .row
@@ -29,3 +63,7 @@ html
             img(src=user.profile_image_url)
 
             a(href='/logout') Logout
+
+    
+
+    
