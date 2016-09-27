@@ -42,7 +42,8 @@ module.exports = function(app, passport){
 		    tweets.forEach(function(item, index){
 		    	tweets[index] = tweets[index].id
 		    })
-		    res.redirect('/feed', {tweetsId : tweets});
+		    console.log(tweets);
+		    res.render('feed.pug', {tweetsId : tweets});
 		  }
 		});
 
@@ -75,7 +76,7 @@ module.exports = function(app, passport){
 		passport.authenticate('twitter', { failureRedirect: '/' }),
 		function(req, res) {
 			console.log("AUTH CALLBACK");
-	    	res.redirect('/profile');
+	    	res.redirect('/feed');
 		});
 
 	app.get('/logout', function(req, res){

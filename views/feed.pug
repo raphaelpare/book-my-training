@@ -1,0 +1,59 @@
+doctype html
+html
+  head
+    title Node Authentication
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
+    style.
+      body 		{ padding-top:80px; word-wrap:break-word; }
+    script.
+      window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+      t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = 	"https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      t._e = [];
+      t.ready = function(f) {
+      t._e.push(f);
+      };
+      return t;
+      }(document, "script", "twitter-wjs"));
+
+doctype html
+html
+  head
+    title Node Authentication
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
+    script(src='https://code.jquery.com/jquery-3.1.1.min.js')
+    style.
+      body 		{ padding-top:80px; word-wrap:break-word; }
+      
+  body
+    .container
+      .row
+        .col-sm-4.col-sm-offset-4 
+           each id in tweetsId
+              div.tweet(id=id)
+    script.
+      $(function() {
+      twttr.ready(
+        function (twttr) {
+          twttr.events.bind(
+          'loaded',
+          function (event) {
+            var tweetsId = '#{tweetsId}';
+            tweetsId = tweetsId.split(",")
+            tweetsId.forEach(function(value){
+              twttr.widgets.createTweet(
+              value,
+              document.getElementById(value));
+            });
+          }
+        );
+        }
+      );
+      });
