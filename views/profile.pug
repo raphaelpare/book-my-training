@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title Node Authentication
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
+    style.
+      body 		{ padding-top:80px; word-wrap:break-word; }
+  body
+    .container
+      .row
+        .col-sm-4.col-sm-offset-4
+          .well
+            h3.text-primary
+              span.fa.fa-twitter
+              |  Twitter
+            p
+              strong
+                |  id : 
+              |#{user.id}
+            p
+              strong
+                |  token : 
+              |#{user.token}
+            p
+              strong
+                |  username : 
+              |#{user.username}
+            img(src=user.profile_image_url)
+
+            a(href='/logout') Logout
