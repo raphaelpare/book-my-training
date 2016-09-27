@@ -9,6 +9,7 @@ var mongoose 	 = require('mongoose');
 var bodyParser 	 = require('body-parser');
 var passport 	 = require('passport');
 var flash 		 = require('connect-flash');
+var oauth 		 = require('oauth');
 var methodOverride = require('method-override');
 var router 		 = express.Router();
 

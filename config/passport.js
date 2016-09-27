@@ -25,7 +25,8 @@ module.exports = function(passport) {
         callbackURL: configAuth.twitterAuth.callbackURL
 	  },
         function(token, tokenSecret, profile, done) {
-
+            console.log(token);
+            console.log(tokenSecret)
             process.nextTick(function() {
                 User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
 
@@ -48,10 +49,6 @@ module.exports = function(passport) {
                         newUser.twitter.username            = profile.username;
                         newUser.twitter.profile_image_url   = profile._json.profile_image_url;
 
-                        console.log(newUser.twitter.profile_image_url)
-
-                        console.log(newUser);
-
                         // save our user into the database
                         newUser.save(function(err) {
                             if (err)
@@ -63,6 +60,4 @@ module.exports = function(passport) {
             });
         }
 	));
-
-
 };

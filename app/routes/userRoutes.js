@@ -1,5 +1,7 @@
 var path = require('path');
 var appDir = path.dirname(require.main.filename);
+var request = require('request');
+
 
 // Modules
 var routing = require(appDir + '/app/routes/routes');
@@ -12,15 +14,32 @@ module.exports = function(app, passport){
 	});
 
 	app.get('/profile', routing.isLoggedIn, function(req, res){
-		user = req.user; 
-		json = '{"user": {'+ 
-			'"u_id": "'+user.twitter.id+'",'+ 
-			'"token": "'+user.twitter.token+'",'+ 
-			'"username": "'+user.twitter.username+'",'+
-			'"profile_image_url": "'+user.twitter.profile_image_url+'"}}'; 
-		//res.json(JSON.parse( json )); 
-		console.log(user.twitter);
-		res.render('profile.pug', { user: user.twitter });
+
+		var options = {
+			url: 'https://api.twitter.com/1.1/statuses/home_timeline.json',
+			headers: {
+				'Authorization'	: 'Authorization: OAuth oauth_consumer_key="4ty6jx5zYcTj9GPmP9cHkvJGy", oauth_nonce="26ae56caf27a52a8a9a73eea6f6d8d0b", oauth_signature="7YB5c8u5%2Fk%2FVW3qbtX7Kplreqn4%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="'+req.user.twitter.token+'", oauth_version="1.0"',
+				'X-Target-URI'	: 'https://api.twitter.com',
+				'Host'	: 'api.twitter.com',
+				'Connection'	: 'Keep-Alive'
+			}
+		};
+
+ 
+		function callback(error, response, body) {
+		  if (!error) {
+		    var info = JSON.parse(body);
+		    console.log(info);
+		  }
+		  else
+		  	console.log("ERROR")
+		  	console.log(error)
+		}
+		 
+		request(options, callback);
+
+		user = req.user;
+		//res.render('profile.pug', { user: user.twitter });
 	});
 
 	app.post('/profile', function(req, res){
