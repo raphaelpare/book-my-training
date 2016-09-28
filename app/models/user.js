@@ -17,7 +17,6 @@ userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-
 // this method hashes the password and sets the users password
 userSchema.methods.hashPassword = function(password) {
     var user = this;
