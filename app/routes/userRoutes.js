@@ -1,7 +1,7 @@
 var path = require('path');
 var appDir = path.dirname(require.main.filename);
 var request = require('request');
-
+var moment = require('moment');
 
 
 var Twitter = require('twitter');
@@ -40,9 +40,11 @@ module.exports = function(app, passport){
 		client.get('statuses/home_timeline', params, function(error, tweets, response) {
 		  if (!error) {
 		    tweets.forEach(function(item, index){
-		    	tweets[index] = tweets[index].id
+		    	if(moment(tweets[index].created_at).isBefore(moment().subtract(1,'days')) ){
+		    		return;
+		    	}
+		    	tweets[index] = tweets[index].id_str
 		    })
-		    console.log(tweets);
 		    res.render('feed.pug', {tweetsId : tweets});
 		  }
 		});

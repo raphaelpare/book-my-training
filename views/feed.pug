@@ -50,7 +50,12 @@ html
             tweetsId.forEach(function(value){
               twttr.widgets.createTweet(
               value,
-              document.getElementById(value));
+              document.getElementById(value), 
+              {
+                conversation : 'none',    // or all
+                theme        : 'light',
+                width        : 550    // or dark
+              });
             });
           }
         );
