@@ -37,7 +37,10 @@ html
       .row
         .col-sm-4.col-sm-offset-4 
            each id in tweetsId
-              div.tweet(id=id)
+              div.widget
+                div.tweet(id=id)
+                button.
+                  SAVE
     script.
       $(function() {
       twttr.ready(
@@ -62,3 +65,19 @@ html
         }
       );
       });
+
+    script.
+      $('button').bind('click', function(events){
+          console.log($(events.target).parent()[0].attr('id'))
+          id = $(events.target).parent().attr('id');
+          console.log(id);
+          $.ajax({
+            url: "/tweet",
+            method: "POST",
+            data: { id : id }
+          })
+          .done(function( data ) {
+            console.log(data);
+          });
+      });
+ 
