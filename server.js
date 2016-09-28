@@ -34,6 +34,7 @@ app.set('view engine', 'pug');
 
 // Routes
 require('./app/routes/userRoutes.js')(app, passport);
+require('./app/routes/tweetRoutes.js')(app, passport);
 
 console.log('Magic happens on port: ' + port);
 app.listen(port);

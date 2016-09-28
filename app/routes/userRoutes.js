@@ -2,6 +2,7 @@ var path = require('path');
 var appDir = path.dirname(require.main.filename);
 var request = require('request');
 var moment = require('moment');
+var Tweet = require(appDir + '/app/models/tweet');
 
 
 var Twitter = require('twitter');
@@ -36,22 +37,26 @@ module.exports = function(app, passport){
 	});
 
 	app.get('/feed', function(req, res){
+		
 		var params = {screen_name: 'nodejs'};
 		client.get('statuses/home_timeline', params, function(error, tweets, response) {
 		  if (!error) {
+		  	tweetsIndex = [];
 		    tweets.forEach(function(item, index){
-		    	if(moment(tweets[index].created_at).isBefore(moment().subtract(1,'days')) ){
-		    		return;
+		    	if(moment(tweets[index].created_at).isAfter(moment().subtract(1,'days')) ){
+		    		tweetsIndex.push(tweets[index].id_str);
 		    	}
-		    	tweets[index] = tweets[index].id_str
 		    })
-		    res.render('feed.pug', {tweetsId : tweets});
+	    	console.log(tweetsIndex.length);
+		    res.render('feed.pug', {tweetsId : tweetsIndex});
 		  }
 		});
 
 
-	})
+		 //   res.render('feed.pug', {tweetsId : ['780816296233566208']});
 
+
+	})
 
 	app.get('/profile/edit', function(req, res){
 		campaignDao.getHobbies(function(err, hobbies){

@@ -40,7 +40,7 @@ html
               div.widget
                 div.tweet(id=id)
                 button.
-                  SAVE
+                  DELETE
     script.
       $(function() {
       twttr.ready(
@@ -73,12 +73,11 @@ html
           id = $(event.target).parent().find(".tweet").attr("id")
 
           $.ajax({
-            url: "/tweet",
-            method: "POST",
-            data: { id : id }
+            url: "/tweet/"+id,
+            method: "DELETE"
           })
           .done(function( data ) {
-            console.log(data);
+            $("#"+id).parent().css("display", 'none');
           });
       });
  
