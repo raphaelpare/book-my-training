@@ -12,7 +12,6 @@ var Twitter = require('twitter');
 // Modules
 
 module.exports = function(app, passport){
-
 	app.get('/', function(req, res){
 		res.render('index.pug');
 	});
@@ -60,19 +59,34 @@ module.exports = function(app, passport){
         
 	});
 
-	app.get('/user/:id', function(req, res){
-		console.log(req.method);
-		tweetId = req.query['id'];
-		userId = req.params.id;
-
-		console.log("TWEET ID = " + tweetId);
-		console.log("USER ID = " + userId);
-
+	app.post('/user/:id', function(req, res){
+		userId = req.params.id
+		tweetId = req.body.id
 		User.findOne({ 'twitter.id' : userId }, function(err, user) {
-			console.log(user);
-		});
+			savedTweets = user.twitter.savedTweets;
 
-		res.json({"get":"kanker"})
+			console.log(savedTweets);
+			exists = false;
+
+			savedTweets.forEach(function(tweet, index){
+				if(typeof tweet !== 'undefined')
+				{
+					if(tweetId == tweet){
+						exists = true;
+					}
+				}
+			});
+			if(!exists){
+				savedTweets.push(tweetId);
+			}
+
+			User.update( {'twitter.id':userId}, {$set : {'twitter.savedTweets':savedTweets}}, function(error, truc){
+				if(!error){
+					return res.json({"ok":"ok"})
+				}
+			});
+
+		});
 	});
 
 
@@ -108,4 +122,8 @@ module.exports = function(app, passport){
 		req.logout();
 		res.redirect('/');
 	});
+
+	function sortNumber(a,b) {
+		return a - b;
+	}
 };
