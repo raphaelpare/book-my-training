@@ -3,26 +3,79 @@ var appDir = path.dirname(require.main.filename);
 var request = require('request');
 var moment = require('moment');
 var Tweet = require(appDir + '/app/models/tweet');
+var routing = require(appDir + '/app/routes/routes');
+var User = require(appDir + '/app/models/user');
 
 
 var Twitter = require('twitter');
 
-var client = new Twitter({
-	consumer_key: '4ty6jx5zYcTj9GPmP9cHkvJGy',
-	consumer_secret: 'JlIWy5nHD96jCZD4TTOCSDbQ9Ltxpf7UbrwB5WFcxCYoD6TILe',
-	access_token_key: '1637629183-iP8O5Gr6nTmLKkxwdA8ebPj7ASYOtfemLUEqnti',
-	access_token_secret: '7gvBmwpC0JK3eMw0Lkq0weAejJhbOVBecaGaVcCDalVlY'
-});
-
 // Modules
-var routing = require(appDir + '/app/routes/routes');
-var User = require(appDir + '/app/models/user');
 
 module.exports = function(app, passport){
 
 	app.get('/', function(req, res){
 		res.render('index.pug');
 	});
+
+	app.get('/user/:id', function(req, res){
+		console.log(req.params.id);
+
+        User.findOne({ 'twitter.id' : req.params.id }, function(err, user) {
+
+            if (err)
+                return res.json({'kanker':'kanker'})
+
+            if (user) {
+				res.status(200)
+	        	return res.json(user);
+
+            } else {
+            	//204 No Content
+            	res.status(204);
+            	return res.json({'error':'User not found'})
+            }
+        });
+	});
+
+	app.post('/user', function(req, res){
+
+        var newUser = new User();
+
+        newUser.twitter.id                  = req.body.id;
+        newUser.twitter.username            = req.body.username;
+        newUser.twitter.displayName         = req.body.displayName;
+        newUser.twitter.token               = req.body.token;
+        newUser.twitter.tokenSecret         = req.body.tokenSecret;
+        newUser.twitter.profile_image_url   = req.body.profile_image_url;
+        newUser.twitter.savedTweets			= [];
+
+        newUser.save(function(err) {
+            if (err)
+                throw err;
+            //201 CREATED
+			res.writeHead(201, {"Content-Type": "application/json"});
+        	return res.end(JSON.stringify(newUser));
+
+        });
+        
+	});
+
+	app.get('/user/:id', function(req, res){
+		console.log(req.method);
+		tweetId = req.query['id'];
+		userId = req.params.id;
+
+		console.log("TWEET ID = " + tweetId);
+		console.log("USER ID = " + userId);
+
+		User.findOne({ 'twitter.id' : userId }, function(err, user) {
+			console.log(user);
+		});
+
+		res.json({"get":"kanker"})
+	});
+
+
 
 	app.get('/profile', routing.isLoggedIn, function(req, res){
 
@@ -36,41 +89,6 @@ module.exports = function(app, passport){
 		});
 	});
 
-	app.get('/feed', function(req, res){
-		
-		var params = {screen_name: 'nodejs'};
-		client.get('statuses/home_timeline', params, function(error, tweets, response) {
-		  if (!error) {
-		  	tweetsIndex = [];
-		    tweets.forEach(function(item, index){
-		    	if(moment(tweets[index].created_at).isAfter(moment().subtract(1,'days')) ){
-		    		tweetsIndex.push(tweets[index].id_str);
-		    	}
-		    })
-	    	console.log(tweetsIndex.length);
-		    res.render('feed.pug', {tweetsId : tweetsIndex});
-		  }
-		});
-
-
-		 //   res.render('feed.pug', {tweetsId : ['780816296233566208']});
-
-
-	})
-
-	app.get('/profile/edit', function(req, res){
-		campaignDao.getHobbies(function(err, hobbies){
-			if(err){
-	 			console.log(err);
-	 			res.statusCode = 500;
-	 			return res.json({
-	 				errors: ['Problème lors de la récupération des hobbies']
-	 			});
-			}
-
-			res.render('update-peon', {hobbies: hobbies});
-		});
-	});
 
 	app.get('/auth/twitter',passport.authenticate('twitter'), function(req, res){
 		console.log("AUTH");
