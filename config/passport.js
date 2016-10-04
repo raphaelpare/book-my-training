@@ -51,6 +51,7 @@ module.exports = function(passport) {
                         newUser.save(function(err) {
                             if (err)
                                 throw err;
+                            var setCookie = cookie.serialize('foo', 'bar');
                             return done(null, newUser);
                         });
                     }

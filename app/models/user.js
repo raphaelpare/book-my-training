@@ -5,9 +5,12 @@ var bcrypt   = require('bcryptjs');
 var userSchema = mongoose.Schema({
     twitter          : {
         id                  : String,
-        token               : String,
         username            : String,
-        profile_image_url   : String
+        displayName         : String,
+        token               : String,
+        tokenSecret         : String,
+        profile_image_url   : String,
+        savedTweets         : [String]
     }
 
 });
