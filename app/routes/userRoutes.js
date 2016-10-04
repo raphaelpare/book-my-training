@@ -59,7 +59,7 @@ module.exports = function(app, passport){
         
 	});
 
-	app.post('/user/:id', function(req, res){
+	app.post('/user/:id/tweets', function(req, res){
 		userId = req.params.id
 		tweetId = req.body.id
 		User.findOne({ 'twitter.id' : userId }, function(err, user) {
@@ -89,7 +89,15 @@ module.exports = function(app, passport){
 		});
 	});
 
+	app.get('/user/:id/tweets', function(req, res){
 
+		userId = req.params.id
+		User.findOne({ 'twitter.id' : userId }, function(err, user) {
+			savedTweets = user.twitter.savedTweets;
+			console.log(savedTweets);
+			return res.json({savedTweets})
+		});
+	});
 
 	app.get('/profile', routing.isLoggedIn, function(req, res){
 

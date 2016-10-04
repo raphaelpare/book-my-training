@@ -13,17 +13,6 @@ var Twitter = require('twitter');
 
 module.exports = function(app, passport, apiAuth){
 
-	app.get('/tweet', function(req, res){
-		Tweet.find(function (err, tweets) {
-		  if (err) return handleError(err);
-		  tweetsId = [];
-		  tweets.forEach(function(item, index){
-		  	tweetsId.push(item.tweet_id);
-		  });
-		  res.json({tweetsId : tweetsId});
-		});
-	});
-
 	app.post('/tweet', function(req, res){
 
 		console.log("saving tweet...")
