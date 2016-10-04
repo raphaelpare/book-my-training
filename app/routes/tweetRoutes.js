@@ -4,6 +4,9 @@ var request = require('request');
 var moment = require('moment');
 var Tweet = require(appDir + '/app/models/tweet');
 var User = require(appDir + '/app/models/user');
+var unique = require('array-unique');
+var inArray = require('in-array');
+
 //var Tweet = mongoose.model('Tweet', Tweet);
 
 var Twitter = require('twitter');
@@ -50,13 +53,16 @@ module.exports = function(app, passport, apiAuth){
 		client.get('statuses/home_timeline', params, function(error, tweets, response) {
 		  if (!error) {
 		  	tweetsIndex = [];
-		    tweets.forEach(function(item, index){
+		  	userList = {};
+		    tweets.forEach(function(tweet, index){
 		    	if(moment(tweets[index].created_at).isAfter(moment().subtract(1,'days')) ){
-		    		tweetsIndex.push(tweets[index].id_str);
+		    		if(!(tweet.user.name in userList)){
+		    			userList[tweet.user.name] = [];
+		    		}
+		    		userList[tweet.user.name].push(tweets[index].id_str)
 		    	}
 		    })
-	    	console.log(tweetsIndex);
-		    res.json({tweetsIndex});
+		    res.json(JSON.stringify(userList));
 		  }
 		});
 
