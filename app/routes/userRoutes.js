@@ -129,11 +129,7 @@ module.exports = function(app, passport){
 		});
 	});
 
-
-	app.get('/auth/linkedin',passport.authenticate('linkedin', { scope: ['r_fullprofile'] }));
-
-	//app.post('/auth', passport.authenticate('local', { session: false }), serialize, generateToken, respond);
-
+	app.get('/auth/linkedin',passport.authenticate('linkedin'));
 
 	app.get('/auth/linkedin/callback',
 		passport.authenticate('linkedin', { failureRedirect: '/' }),
