@@ -30,7 +30,7 @@ module.exports = function(app, passport){
 
             } else {
             	//204 No Content
-            	res.status(204);
+            	res.status(404);
             	return res.json({'error':'User not found'})
             }
         });
@@ -99,6 +99,24 @@ module.exports = function(app, passport){
 		});
 	});
 
+	app.get('/user/:userId/tweets/:tweetId', function(req, res){
+
+		userId = req.params.userId
+		tweetId = req.params.tweetId
+		User.findOne({ 'twitter.id' : userId }, function(err, user) {
+			savedTweets = user.twitter.savedTweets;
+
+			tweets = savedTweets.indexOf(tweetId)
+    		array.splice(index, 1)
+
+			User.update( {'twitter.id':userId}, {$set : {'twitter.savedTweets':tweets}}, function(error, truc){
+				if(!error){
+					return res.json({"ok":"ok"})
+				}
+			});
+		});
+	});
+
 	app.get('/profile', routing.isLoggedIn, function(req, res){
 
 		res.render('profile.pug', { user: req.user.twitter });
@@ -112,15 +130,13 @@ module.exports = function(app, passport){
 	});
 
 
-	app.get('/auth/twitter',passport.authenticate('twitter'), function(req, res){
-		console.log("AUTH");
-	});
+	app.get('/auth/linkedin',passport.authenticate('linkedin'));
 
 	//app.post('/auth', passport.authenticate('local', { session: false }), serialize, generateToken, respond);
 
 
-	app.get('/auth/twitter/callback',
-		passport.authenticate('twitter', { failureRedirect: '/' }),
+	app.get('/auth/linkedin/callback',
+		passport.authenticate('linkedin', { failureRedirect: '/' }),
 		function(req, res) {
 			console.log("AUTH CALLBACK");
 	    	res.redirect('/feed');

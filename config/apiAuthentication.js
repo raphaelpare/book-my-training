@@ -1,7 +1,9 @@
 module.exports = {
-	'twitterAuth' : {
-	    consumerKey: '4ty6jx5zYcTj9GPmP9cHkvJGy',
-	    consumerSecret: 'JlIWy5nHD96jCZD4TTOCSDbQ9Ltxpf7UbrwB5WFcxCYoD6TILe',
-	    callbackURL: 'http://localhost:8080/auth/twitter/callback'
+	'linkedinAuth' : {
+	    consumerKey: '78ez4j9zf675ys',
+	    consumerSecret: 'huYsVQMYWNG5BE7V',
+	    callbackURL: 'http://localhost:8080/auth/linkedin/callback'
+	  //  callbackURL: 'http://bookmytraining-91986.onmodulus.net/auth/linkedin/callback'
+
 	}
 }

@@ -3,7 +3,7 @@ var path = require('path');
 var appDir = path.dirname(require.main.filename);
 
 //Modules
-var TwitterStrategy = require('passport-twitter').Strategy;
+var LinkedinStrategy = require('passport-linkedin').Strategy;
 var configAuth   = require(appDir + '/config/apiAuthentication');
 var User         = require(appDir + '/app/models/user');
 
@@ -19,39 +19,33 @@ module.exports = function(passport) {
         });
     });
 
-	passport.use(new TwitterStrategy({
-        consumerKey: configAuth.twitterAuth.consumerKey,
-        consumerSecret: configAuth.twitterAuth.consumerSecret,
-        callbackURL: configAuth.twitterAuth.callbackURL
+	passport.use(new LinkedinStrategy({
+        consumerKey: configAuth.linkedinAuth.consumerKey,
+        consumerSecret: configAuth.linkedinAuth.consumerSecret,
+        callbackURL: configAuth.linkedinAuth.callbackURL
 	  },
         function(token, tokenSecret, profile, done) {
             process.nextTick(function() {
-                User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
+                console.log(profile);
+                User.findOne({ 'linkedin.id' : profile.id }, function(err, user) {
 
-                    // if there is an error, stop everything and return that
-                    // ie an error connecting to the database
                     if (err)
                         return done(err);
 
-                    // if the user is found then log them in
                     if (user) {
-                        return done(null, user); // user found, return that user
+                        return done(null, user); 
                     } else {
-                        // if there is no user, create them
                         var newUser = new User();
 
 
-                        // set all of the user data that we need
-                        newUser.twitter.id                  = profile.id;
-                        newUser.twitter.token               = token;
-                        newUser.twitter.username            = profile.username;
-                        newUser.twitter.profile_image_url   = profile._json.profile_image_url;
+                        newUser.linkedin.id                  = profile.id;
+                        newUser.linkedin.token               = token;
+                        newUser.linkedin.name                = JSON.stringify(profile.name);
+                        newUser.linkedin.displayName         = profile.displayName;
 
-                        // save our user into the database
                         newUser.save(function(err) {
                             if (err)
                                 throw err;
-                            var setCookie = cookie.serialize('foo', 'bar');
                             return done(null, newUser);
                         });
                     }

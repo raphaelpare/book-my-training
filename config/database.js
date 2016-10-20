@@ -1,3 +1,3 @@
 module.exports = {
-	'url' : 'mongodb://tp:1234@jello.modulusmongo.net:27017/oz7orAhe' // looks like mongodb://<user>:<pass>@mongo.onmodulus.net:27017/Mikha4ot
+	'url' : 'mongodb://rajalm:1234@jello.modulusmongo.net:27017/u2Bimobo' // looks like mongodb://<user>:<pass>@mongo.onmodulus.net:27017/Mikha4ot
 };

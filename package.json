@@ -33,6 +33,7 @@
     "morgan": "~1.5.2",
     "oauth": "^0.9.14",
     "passport": "~0.2.1",
+    "passport-linkedin": "^1.0.0",
     "passport-twitter": "^1.0.0",
     "pg": "^4.5.5",
     "pug": "^0.1.0",
