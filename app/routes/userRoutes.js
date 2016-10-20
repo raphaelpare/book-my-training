@@ -130,7 +130,7 @@ module.exports = function(app, passport){
 	});
 
 
-	app.get('/auth/linkedin',passport.authenticate('linkedin', { scope: ['r_fullprofile'] }));
+	app.get('/auth/linkedin',passport.authenticate('linkedin'));
 
 	//app.post('/auth', passport.authenticate('local', { session: false }), serialize, generateToken, respond);
 
