@@ -3,14 +3,12 @@ var bcrypt   = require('bcryptjs');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-    twitter          : {
+    linkedin          : {
         id                  : String,
-        username            : String,
+        name                : String,
         displayName         : String,
         token               : String,
-        tokenSecret         : String,
-        profile_image_url   : String,
-        savedTweets         : [String]
+        tokenSecret         : String
     }
 
 });

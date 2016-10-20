@@ -1,15 +1,11 @@
-doctype html
-// views/index.pug
-html
-  head
-    title Node Authentication
-    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
-    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
-    style.
-      body 		{ padding-top:80px; }
-  body
-    .container
-      .jumbotron.text-center
-        a.btn.btn-primary(href='/auth/twitter')
-          span.fa.fa-twitter
-          |  Connexion Twitter
+extends layout.pug
+
+block title
+  title Node Authentication
+
+block content
+  .container
+    .jumbotron.text-center
+      a.btn.btn-primary(href='/auth/linkedin')
+        span.fa
+        |  Connexion Linkedin
