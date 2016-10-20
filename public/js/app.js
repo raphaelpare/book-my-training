@@ -9,13 +9,13 @@ app.config(function($routeProvider) {
   })
 
   .when('/blog', {
-    templateUrl : 'pages/blog.html',
-    controller  : 'BlogController'
+    templateUrl : 'pages/map.html',
+    controller  : 'MapController'
   })
 
-  .when('/about', {
-    templateUrl : 'pages/about.html',
-    controller  : 'AboutController'
+  .when('/newOffer', {
+    templateUrl : 'pages/newOffer.html',
+    controller  : 'NewOfferController'
   })
 
   .otherwise({redirectTo: '/'});
@@ -23,12 +23,13 @@ app.config(function($routeProvider) {
 
 app.controller('HomeController', function($scope) {
   $scope.message = 'Hello from HomeController';
+  Materialize.showStaggeredList('#collection');
 });
 
-app.controller('BlogController', function($scope) {
-  $scope.message = 'Hello from BlogController';
+app.controller('MapController', function($scope) {
+  $scope.message = 'Hello from MapController';
 });
 
-app.controller('AboutController', function($scope) {
-  $scope.message = 'Hello from AboutController';
+app.controller('NewOfferController', function($scope) {
+  $scope.message = 'Hello from NewOfferController';
 });

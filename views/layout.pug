@@ -3,13 +3,18 @@ html(ng-app='bookingApp')
   head
     block title
       title Book My Training
-    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
+    //link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
     link(rel='stylesheet', href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css')
+    link(rel='stylesheet', src='stylesheets/style.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js')
     //script(src='js/app.js', type='text/javascript')
     style.
-      body      { padding-top:80px; }
+      body
 
   body
     block content
