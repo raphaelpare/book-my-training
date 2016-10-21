@@ -36,6 +36,18 @@ module.exports = function(app, passport){
         });
 	});
 
+	app.get('/recrutement', function(req, res){
+		console.log(req.user.linkedin)
+		isRecruteur = User.findOne({ 'linkedin.id' : req.user.linkedin.id }, function(err, user) {
+			if(user.isRecruteur){
+				return res.json({"ok":"ok"})
+			}
+			res.render('signup.pug', {id:req.user.linkedin.id});
+		});
+
+
+	});
+
 	app.post('/user', function(req, res){
 
         var newUser = new User();
@@ -57,6 +69,17 @@ module.exports = function(app, passport){
 
         });
         
+	});
+
+	app.post('/user/update', function(req, res){
+		console.log(req.body);
+
+		User.update( {'linkedin.id':req.body.id}, {$set : {'linkedin.recruteur':req.body.recrutement}}, function(error, truc){
+			if(!error){
+				return res.json({"ok":"ok"})
+			}
+		});
+
 	});
 
 	app.post('/user/:id/tweets', function(req, res){
@@ -139,7 +162,7 @@ module.exports = function(app, passport){
 		passport.authenticate('linkedin', { failureRedirect: '/' }),
 		function(req, res) {
 			console.log("AUTH CALLBACK");
-	    	res.redirect('/feed');
+	    	res.redirect('/recrutement');
 		});
 
 	app.get('/logout', function(req, res){

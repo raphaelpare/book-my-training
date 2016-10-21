@@ -7,8 +7,9 @@ var userSchema = mongoose.Schema({
         id                  : String,
         name                : String,
         displayName         : String,
-        token               : String,
-        tokenSecret         : String
+        token               : String,   
+        tokenSecret         : String,
+        recruteur           : {type: Boolean, default: false}
     }
 
 });
