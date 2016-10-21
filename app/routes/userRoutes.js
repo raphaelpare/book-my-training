@@ -16,22 +16,26 @@ module.exports = function(app, passport){
 		res.render('index.pug');
 	});
 
+	app.get('/app', function(req,res) {
+		res.render('app.pug');
+	});
+
 	app.get('/user/:id', function(req, res){
 		console.log(req.params.id);
 
         User.findOne({ 'twitter.id' : req.params.id }, function(err, user) {
 
             if (err)
-                return res.json({'kanker':'kanker'})
+                return res.json({'kanker':'kanker'});
 
             if (user) {
-				res.status(200)
+				res.status(200);
 	        	return res.json(user);
 
             } else {
             	//204 No Content
             	res.status(404);
-            	return res.json({'error':'User not found'})
+            	return res.json({'error':'User not found'});
             }
         });
 	});
@@ -83,8 +87,8 @@ module.exports = function(app, passport){
 	});
 
 	app.post('/user/:id/tweets', function(req, res){
-		userId = req.params.id
-		tweetId = req.body.id
+		userId = req.params.id;
+		tweetId = req.body.id;
 		User.findOne({ 'twitter.id' : userId }, function(err, user) {
 			savedTweets = user.twitter.savedTweets;
 
@@ -105,7 +109,7 @@ module.exports = function(app, passport){
 
 			User.update( {'twitter.id':userId}, {$set : {'twitter.savedTweets':savedTweets}}, function(error, truc){
 				if(!error){
-					return res.json({"ok":"ok"})
+					return res.json({"ok":"ok"});
 				}
 			});
 
@@ -114,27 +118,27 @@ module.exports = function(app, passport){
 
 	app.get('/user/:id/tweets', function(req, res){
 
-		userId = req.params.id
+		userId = req.params.id;
 		User.findOne({ 'twitter.id' : userId }, function(err, user) {
 			savedTweets = user.twitter.savedTweets;
 			console.log(savedTweets);
-			return res.json({savedTweets})
+			return res.json(savedTweets);
 		});
 	});
 
 	app.get('/user/:userId/tweets/:tweetId', function(req, res){
 
-		userId = req.params.userId
-		tweetId = req.params.tweetId
+		userId = req.params.userId;
+		tweetId = req.params.tweetId;
 		User.findOne({ 'twitter.id' : userId }, function(err, user) {
 			savedTweets = user.twitter.savedTweets;
 
-			tweets = savedTweets.indexOf(tweetId)
-    		array.splice(index, 1)
+			tweets = savedTweets.indexOf(tweetId);
+    		array.splice(index, 1);
 
 			User.update( {'twitter.id':userId}, {$set : {'twitter.savedTweets':tweets}}, function(error, truc){
 				if(!error){
-					return res.json({"ok":"ok"})
+					return res.json({"ok":"ok"});
 				}
 			});
 		});
@@ -162,12 +166,17 @@ module.exports = function(app, passport){
 		passport.authenticate('linkedin', { failureRedirect: '/' }),
 		function(req, res) {
 			console.log("AUTH CALLBACK");
-	    	res.redirect('/recrutement');
+	    	res.redirect('/app');
 		});
 
 	app.get('/logout', function(req, res){
 		req.logout();
 		res.redirect('/');
+	});
+
+	app.get(/^(.+)$/, function(req, res){ 
+	    console.log('static file request : ' + req.params);
+	    res.sendFile( appDir + '/public' + req.params[0]); 
 	});
 
 	function sortNumber(a,b) {

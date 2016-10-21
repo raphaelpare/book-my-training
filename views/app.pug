@@ -1,0 +1,21 @@
+extends layout.pug
+
+block title
+  title Node Authentication
+
+block content
+  .main
+
+    nav
+      .nav-wrapper
+        a.brand-logo(href='#/') Mogette Training
+        ul#nav-mobile.right.hide-on-med-and-down
+          li
+            a(href='#/blog') Map
+          li
+            a(href='#/about') Mes demandes
+          li
+            a(href='#/about') Evaluer
+
+    .container
+        div(ng-view='')
